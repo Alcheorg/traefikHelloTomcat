@@ -1,0 +1,16 @@
+traefik:
+  image: traefik
+  command: --configFile=/var/traefik/traefik.toml
+  ports:
+    - "80:80"
+    - "8080:8080"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - $PWD/traefik.toml:/var/traefik/traefik.toml
+
+server:
+  image: tomcat
+  labels:
+    - "traefik.backend=bar"
+    - "traefik.frontend.rule=Host:localhost"
+#    - "traefik.port=8080"
